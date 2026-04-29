@@ -7,32 +7,32 @@ window.addEventListener('load', function() {
    console.log("Sakura JS cargado y ejecutándose");
 });
 
-function initSakura() {
-    // Eliminamos la restricción de "solo login" para probar si aparecen en cualquier lado
-    // Si funciona, luego lo restringimos de nuevo
-    if (document.getElementById('sakura-container')) return;
+(function() {
+    console.log("🌸 Sakura Engine: Iniciando...");
+    
+    function initSakura() {
+        if (!document.querySelector('.loginPage')) return;
+        if (document.getElementById('sakura-container')) return;
 
-    console.log("🌸 Ejecutando lluvia de pétalos...");
+        const container = document.createElement('div');
+        container.id = 'sakura-container';
+        document.body.appendChild(container);
 
-    const container = document.createElement('div');
-    container.id = 'sakura-container';
-    document.body.appendChild(container);
+        setInterval(function() {
+            if (!document.querySelector('.loginPage')) return;
+            const petal = document.createElement('div');
+            petal.className = 'sakura';
+            petal.style.left = Math.random() * 100 + 'vw';
+            petal.style.animationDuration = (Math.random() * 3 + 5) + 's';
+            container.appendChild(petal);
+            setTimeout(function() { petal.remove(); }, 8000);
+        }, 450);
+    }
 
-    setInterval(() => {
-        const petal = document.createElement('div');
-        petal.className = 'sakura';
-        petal.style.left = Math.random() * 100 + 'vw';
-        petal.style.animationDuration = (Math.random() * 3 + 4) + 's';
-        container.appendChild(petal);
-        setTimeout(() => petal.remove(), 8000);
-    }, 500);
-}
-
-// Ejecutar de todas las formas posibles
-window.addEventListener('DOMContentLoaded', initSakura);
-window.addEventListener('load', initSakura);
-window.addEventListener('hashchange', initSakura);
-setInterval(initSakura, 2000); // Re-chequeo cada 2 segundos
+    window.addEventListener('load', initSakura);
+    window.addEventListener('hashchange', initSakura);
+    new MutationObserver(initSakura).observe(document.body, { childList: true });
+})();
 
     const container = document.getElementById('sakura-container');
     
