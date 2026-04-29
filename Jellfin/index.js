@@ -2,6 +2,10 @@
    JELLYFIN OTAKU SANCTUARY — CUSTOM JAVASCRIPT
    Pegar en: Dashboard → General → Custom JavaScript
    ============================================================ */
+window.addEventListener('load', function() {
+   // AQUÍ DEBERÍA IR TODO TU CÓDIGO DE LOS PÉTALOS
+   console.log("Sakura JS cargado y ejecutándose");
+});
 
 function initSakura() {
     // Solo ejecutar en la página de login
@@ -88,3 +92,8 @@ const observer = new MutationObserver((mutations) => {
 });
 
 observer.observe(document.body, { childList: true, subtree: false });
+
+window.addEventListener('load', function() {
+   // AQUÍ DEBERÍA IR TODO TU CÓDIGO DE LOS PÉTALOS
+   console.log("Sakura JS cargado y ejecutándose");
+});
