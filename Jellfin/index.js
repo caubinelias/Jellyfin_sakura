@@ -8,31 +8,31 @@ window.addEventListener('load', function() {
 });
 
 function initSakura() {
-    // Solo ejecutar en la página de login
-    if (!document.querySelector('.loginPage')) return;
+    // Eliminamos la restricción de "solo login" para probar si aparecen en cualquier lado
+    // Si funciona, luego lo restringimos de nuevo
+    if (document.getElementById('sakura-container')) return;
 
-    // Crear contenedor si no existe
-    if (!document.getElementById('sakura-container')) {
-        const container = document.createElement('div');
-        container.id = 'sakura-container';
-        document.body.appendChild(container);
-        
-        // Añadir Kanji de fondo (opcional, decorativo)
-        const kanji = document.createElement('div');
-        kanji.innerHTML = '桜'; // "Sakura" en Kanji
-        kanji.style.cssText = `
-            position: fixed;
-            bottom: -5%;
-            right: -2%;
-            font-size: 40vh;
-            color: rgba(160, 0, 255, 0.03);
-            font-family: 'Noto Sans JP', sans-serif;
-            pointer-events: none;
-            z-index: 0;
-            user-select: none;
-        `;
-        document.body.appendChild(kanji);
-    }
+    console.log("🌸 Ejecutando lluvia de pétalos...");
+
+    const container = document.createElement('div');
+    container.id = 'sakura-container';
+    document.body.appendChild(container);
+
+    setInterval(() => {
+        const petal = document.createElement('div');
+        petal.className = 'sakura';
+        petal.style.left = Math.random() * 100 + 'vw';
+        petal.style.animationDuration = (Math.random() * 3 + 4) + 's';
+        container.appendChild(petal);
+        setTimeout(() => petal.remove(), 8000);
+    }, 500);
+}
+
+// Ejecutar de todas las formas posibles
+window.addEventListener('DOMContentLoaded', initSakura);
+window.addEventListener('load', initSakura);
+window.addEventListener('hashchange', initSakura);
+setInterval(initSakura, 2000); // Re-chequeo cada 2 segundos
 
     const container = document.getElementById('sakura-container');
     
