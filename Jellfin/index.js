@@ -7,27 +7,67 @@ window.addEventListener('load', function() {
    console.log("Sakura JS cargado y ejecutándose");
 });
 
+/* ============================================================
+   JELLYFIN SAKURA ENGINE — FIXED VERSION
+   ============================================================ */
+
 (function() {
     console.log("🌸 Sakura Engine: Iniciando...");
     
     function initSakura() {
+        // Solo actuar si estamos en el login
         if (!document.querySelector('.loginPage')) return;
+        
+        // No duplicar el contenedor
         if (document.getElementById('sakura-container')) return;
 
         const container = document.createElement('div');
         container.id = 'sakura-container';
+        // Estilo básico de seguridad para el contenedor
+        container.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:999998;pointer-events:none;overflow:hidden;';
         document.body.appendChild(container);
 
-        setInterval(function() {
-            if (!document.querySelector('.loginPage')) return;
+        // Generador de pétalos
+        const petalInterval = setInterval(function() {
+            if (!document.querySelector('.loginPage')) {
+                clearInterval(petalInterval);
+                container.remove();
+                return;
+            }
+
             const petal = document.createElement('div');
             petal.className = 'sakura';
+            
+            // Variedad aleatoria
+            const size = Math.random() * 10 + 10 + 'px';
+            petal.style.width = size;
+            petal.style.height = size;
             petal.style.left = Math.random() * 100 + 'vw';
             petal.style.animationDuration = (Math.random() * 3 + 5) + 's';
+            petal.style.animationDelay = Math.random() * 2 + 's';
+            
             container.appendChild(petal);
-            setTimeout(function() { petal.remove(); }, 8000);
+
+            // Limpieza de memoria: eliminar pétalo tras caer
+            setTimeout(function() { 
+                if(petal) petal.remove(); 
+            }, 9000);
+            
         }, 450);
     }
+
+    // Disparadores para Jellyfin
+    window.addEventListener('load', initSakura);
+    window.addEventListener('hashchange', initSakura);
+    
+    // Observador para cambios de página internos de Jellyfin
+    const observer = new MutationObserver(function() {
+        if (document.querySelector('.loginPage')) {
+            initSakura();
+        }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+})();
 
     window.addEventListener('load', initSakura);
     window.addEventListener('hashchange', initSakura);
